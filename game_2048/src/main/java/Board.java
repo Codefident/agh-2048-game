@@ -22,13 +22,17 @@ public class Board
         }
     }
 
+    public double[] flattenBoard() {
+        double[] flatBoard = new double[16];
+        int index = 0;
 
-    /*
-    * GETTERS
-    */
-    public Tile[][] getBoard()
-    {
-        return board;
+        for (Tile[] tiles : board) {
+            for (Tile tile : tiles) {
+                flatBoard[index++] = tile.getValue();
+            }
+        }
+
+        return flatBoard;
     }
 
     public int getScore()
@@ -41,13 +45,10 @@ public class Board
     public int getHighTile()
     {
         int high = board[0][0].getValue();
-        for ( int i = 0; i < board.length; i++ )
-        {
-            for ( int j = 0; j < board[i].length; j++ )
-            {
-                if ( board[i][j].getValue() > high )
-                {
-                    high = board[i][j].getValue();
+        for (Tile[] tiles : board) {
+            for (Tile tile : tiles) {
+                if (tile.getValue() > high) {
+                    high = tile.getValue();
                 }
             }
         }
@@ -58,16 +59,14 @@ public class Board
     // return the board as the string
     public String toString()
     {
-        String s = "";
-        for ( int i = 0; i < board.length; i++ )
-        {
-            for ( int j = 0; j < board[i].length; j++ )
-            {
-                s += board[i][j].toString() + " ";
+        StringBuilder s = new StringBuilder();
+        for (Tile[] tiles : board) {
+            for (Tile tile : tiles) {
+                s.append(tile.toString()).append(" ");
             }
-            s += "\n";
+            s.append("\n");
         }
-        return s;
+        return s.toString();
     }
 
 
@@ -106,21 +105,14 @@ public class Board
     public boolean blackOut()
     {
         int count = 0;
-        for ( int i = 0; i < board.length; i++ )
-        {
-            for ( int j = 0; j < board[i].length; j++ )
-            {
-                if ( board[i][j].getValue() > 0 )
-                {
+        for (Tile[] tiles : board) {
+            for (Tile tile : tiles) {
+                if (tile.getValue() > 0) {
                     count++;
                 }
             }
         }
-        if ( count == 16 )
-        {
-            return true;
-        }
-        return false;
+        return count == 16;
     }
 
 
@@ -222,11 +214,7 @@ public class Board
                 }
             }
         }
-        if ( count == 16 )
-        {
-            return true;
-        }
-        return false;
+        return count == 16;
     }
 
 
@@ -284,7 +272,7 @@ public class Board
      *
      * Compares two tile's values together and if they are the same or if one is
      * equal to 0 (plain tile) - their values are added (provided that the tiles
-     * we are comparing are two different tiles and they are moving towards the
+     * we are comparing are two different tiles, and they are moving towards the
      * appropriate direction) - Uses recursion to go through the entire column
      *
      * @param row
@@ -380,7 +368,7 @@ public class Board
      *
      * Compares two tile's values together and if they are the same or if one is
      * equal to 0 (plain tile) - their values are added (provided that the tiles
-     * we are comparing are two different tiles and they are moving towards the
+     * we are comparing are two different tiles, and they are moving towards the
      * appropriate direction) - Uses recursion to go through the entire row
      *
      * @param row

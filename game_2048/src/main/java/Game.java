@@ -19,6 +19,7 @@ public class Game extends JPanel implements KeyListener, GameInterface
 
     String gameBoard = game.toString();
 
+
     // set up GUI, add key listeners
     public static void setUpGUI()
     {
@@ -85,7 +86,7 @@ public class Game extends JPanel implements KeyListener, GameInterface
     }
 
 
-    // painting
+    // painting`
     public void paint( Graphics g )
     {
         super.paint( g );
@@ -114,6 +115,9 @@ public class Game extends JPanel implements KeyListener, GameInterface
         }
         if ( game.gameOver() )
         {
+            // getScore
+            this.getScore();
+
             g2.setColor( Color.gray );
             g2.fillRect( 140, 50, 250, 250 );
             for ( int i = 0; i < 4; i++ )
@@ -152,22 +156,55 @@ public class Game extends JPanel implements KeyListener, GameInterface
     // GameInterface
     @Override
     public void newGame() {
-
+        game = new Board();
+        game.spawn();
+        game.spawn();
+        frame.repaint();
     }
 
     @Override
     public void move(Vector options) {
+        Moves move = options.getMove();
 
+        switch (move) {
+            case UP -> {
+                game.up();
+                game.spawn();
+                gameBoard = game.toString();
+                frame.repaint();
+            }
+
+            case RIGHT -> {
+                game.right();
+                game.spawn();
+                gameBoard = game.toString();
+                frame.repaint();
+            }
+
+            case DOWN -> {
+                game.down();
+                game.spawn();
+                gameBoard = game.toString();
+                frame.repaint();
+            }
+
+            case LEFT -> {
+                game.left();
+                game.spawn();
+                gameBoard = game.toString();
+                frame.repaint();
+            }
+        }
     }
 
     @Override
     public int getScore() {
-        return 0;
+        return game.getScore();
     }
 
     @Override
     public double[] getState() {
-        return new double[0];
+        return game.flattenBoard();
     }
 
     public static void main( String[] args )

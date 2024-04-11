@@ -1,8 +1,8 @@
 public class Vector {
-    private float up = 0;
-    private float right = 0;
-    private float down = 0;
-    private float left = 0;
+    private double up;
+    private double right;
+    private double down;
+    private double left;
 
     public Vector(float up, float right, float down,float left) {
         this.up = up;
@@ -12,7 +12,7 @@ public class Vector {
     }
     
     public Moves getMove() {
-        float maxValue = this.up;
+        double maxValue = this.up;
         Moves move = Moves.UP;
 
         if (right > maxValue) {
@@ -26,7 +26,6 @@ public class Vector {
         }
 
         if (left > maxValue) {
-            maxValue = left;
             move = Moves.LEFT;
         }
 

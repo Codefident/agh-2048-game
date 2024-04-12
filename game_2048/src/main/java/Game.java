@@ -92,17 +92,17 @@ public class Game extends JPanel implements KeyListener, GameInterface
         super.paint( g );
         Graphics2D g2 = (Graphics2D)g;
         g2.drawString( "2048", 250, 20 );
-        g2.drawString( "Score: " + game.getScore(),
+        g2.drawString( "Wynik: " + game.getScore(),
                 200 - 4 * String.valueOf( game.getScore() ).length(),
                 40 );
-        g2.drawString( "Highest Tile: " + game.getHighTile(),
+        g2.drawString( "Najwieksze pole: " + game.getHighTile(),
                 280 - 4 * String.valueOf( game.getHighTile() ).length(),
                 40 );
-        g2.drawString( "Press 'Enter' to Start", 210, 315 );
-        g2.drawString( "Use 'wasd' or Arrow Keys to move", 180, 335 );
+        g2.drawString( "Nacisnij 'Enter' aby zaczac", 210, 315 );
+        g2.drawString( "Poruszanie sie - WSAD lub strzalki", 180, 335 );
         if ( game.blackOut() )
         {
-            g2.drawString( "Press 'Enter' to restart", 200, 355 );
+            g2.drawString( "Nacisnij 'Enter' zeby zrestartowac", 200, 355 );
         }
         g2.setColor( Color.gray );
         g2.fillRect( 140, 50, 250, 250 );

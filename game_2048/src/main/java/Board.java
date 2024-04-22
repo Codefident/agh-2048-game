@@ -117,12 +117,9 @@ public class Board
 
 
     /**
-     *
      * Checks to see if the game is over - that is, checks if any tile (that
      * isn't a 0) is able to combine with the tiles next to it - If not, the
      * game is over
-     *
-     * @return boolean
      */
     public boolean gameOver()
     {
@@ -224,8 +221,10 @@ public class Board
      * the entire board and calls verticalMove with an "up" parameter for each
      * tile
      */
-    public void up()
+    public boolean up()
     {
+        boolean hasMoved = false;
+
         for ( int i = 0; i < grids; i++ )
         {
             border = 0;
@@ -235,11 +234,14 @@ public class Board
                 {
                     if ( border <= j )
                     {
-                        verticalMove( j, i, "up" );
+                        if(verticalMove( j, i, Moves.UP ))
+                            hasMoved = true;
                     }
                 }
             }
         }
+
+        return hasMoved;
     }
 
 
@@ -249,8 +251,9 @@ public class Board
      * the entire board and calls verticalMove with a "down" parameter for each
      * tile
      */
-    public void down()
+    public boolean down()
     {
+        boolean hasMoved = false;
         for ( int i = 0; i < grids; i++ )
         {
             border = ( grids - 1 );
@@ -260,35 +263,32 @@ public class Board
                 {
                     if ( border >= j )
                     {
-                        verticalMove( j, i, "down" );
+                        if(verticalMove( j, i, Moves.DOWN ))
+                            hasMoved = true;
                     }
                 }
             }
         }
+
+        return hasMoved;
     }
 
 
-    /**
-     *
+    /*
      * Compares two tile's values together and if they are the same or if one is
      * equal to 0 (plain tile) - their values are added (provided that the tiles
      * we are comparing are two different tiles, and they are moving towards the
      * appropriate direction) - Uses recursion to go through the entire column
      *
-     * @param row
-     *            row that the compare tile is currently on
-     * @param col
-     *            column that the compare tile is currently on
-     * @param direction
-     *            direction (up or down) that the tile is moving in
+     * Returns true if at least one tile moved
      */
-    private void verticalMove( int row, int col, String direction )
+    private boolean verticalMove( int row, int col, Moves direction )
     {
         Tile initial = board[border][col];
         Tile compare = board[row][col];
         if ( initial.getValue() == 0 || initial.getValue() == compare.getValue() )
         {
-            if ( row > border || ( direction.equals( "down" ) && ( row < border ) ) )
+            if ( row > border || (direction.equals(Moves.DOWN) && (row < border)) )
             {
                 int addScore = initial.getValue() + compare.getValue();
                 if ( initial.getValue() != 0 )
@@ -297,11 +297,13 @@ public class Board
                 }
                 initial.setValue( addScore );
                 compare.setValue( 0 );
+                return true;
             }
+            return false;
         }
         else
         {
-            if ( direction.equals( "down" ) )
+            if ( direction.equals(Moves.DOWN) )
             {
                 border--;
             }
@@ -309,7 +311,7 @@ public class Board
             {
                 border++;
             }
-            verticalMove( row, col, direction );
+            return verticalMove( row, col, direction );
         }
     }
 
@@ -320,8 +322,9 @@ public class Board
      * the entire board and calls horizontalMove with a "left" parameter for
      * each tile
      */
-    public void left()
+    public boolean left()
     {
+        boolean hasMoved = false;
         for ( int i = 0; i < grids; i++ )
         {
             border = 0;
@@ -331,11 +334,14 @@ public class Board
                 {
                     if ( border <= j )
                     {
-                        horizontalMove( i, j, "left" );
+                        if(horizontalMove( i, j, Moves.LEFT ))
+                            hasMoved = true;
                     }
                 }
             }
         }
+
+        return hasMoved;
     }
 
 
@@ -345,8 +351,9 @@ public class Board
      * the entire board and calls horizontalMove with a "right" parameter for
      * each tile
      */
-    public void right()
+    public boolean right()
     {
+        boolean hasMoved = false;
         for ( int i = 0; i < grids; i++ )
         {
             border = ( grids - 1 );
@@ -356,35 +363,23 @@ public class Board
                 {
                     if ( border >= j )
                     {
-                        horizontalMove( i, j, "right" );
+                        if(horizontalMove( i, j, Moves.RIGHT ))
+                            hasMoved = true;
                     }
                 }
             }
         }
+
+        return hasMoved;
     }
 
-
-    /**
-     *
-     * Compares two tile's values together and if they are the same or if one is
-     * equal to 0 (plain tile) - their values are added (provided that the tiles
-     * we are comparing are two different tiles, and they are moving towards the
-     * appropriate direction) - Uses recursion to go through the entire row
-     *
-     * @param row
-     *            row that the compare tile is currently on
-     * @param col
-     *            column that the compare tile is currently on
-     * @param direction
-     *            direction (left or right) that the tile is moving in
-     */
-    private void horizontalMove( int row, int col, String direction )
+    private boolean horizontalMove( int row, int col, Moves direction )
     {
         Tile initial = board[row][border];
         Tile compare = board[row][col];
         if ( initial.getValue() == 0 || initial.getValue() == compare.getValue() )
         {
-            if ( col > border || ( direction.equals( "right" ) && ( col < border ) ) )
+            if ( col > border || ( direction.equals(Moves.RIGHT) && ( col < border ) ) )
             {
                 int addScore = initial.getValue() + compare.getValue();
                 if ( initial.getValue() != 0 )
@@ -393,11 +388,13 @@ public class Board
                 }
                 initial.setValue( addScore );
                 compare.setValue( 0 );
+                return true;
             }
+            return false;
         }
         else
         {
-            if ( direction.equals( "right" ) )
+            if ( direction.equals(Moves.RIGHT) )
             {
                 border--;
             }
@@ -405,7 +402,7 @@ public class Board
             {
                 border++;
             }
-            horizontalMove( row, col, direction );
+            return horizontalMove( row, col, direction );
         }
     }
 

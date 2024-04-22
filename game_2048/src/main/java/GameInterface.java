@@ -1,3 +1,5 @@
+import org.la4j.Vector;
+
 public interface GameInterface {
     /*
     Funkcja do rozpoczynania nowej rozgrywki (resetuje pola, wynik itp)
@@ -11,7 +13,7 @@ public interface GameInterface {
     Kolejność ruchów możesz ustalić dowolną, to bez znaczenia,
     np. że jeśli pole [0] ma najwyższą wartość to ruch to góra, itd.
      */
-    void move(Vector options);
+    void move(Vector vector);
 
     /*
     Po zakończeniu gry będzie trzeba pobrać jej wynik

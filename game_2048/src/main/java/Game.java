@@ -1,3 +1,5 @@
+import org.la4j.Vector;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -36,28 +38,32 @@ public class Game extends JPanel implements KeyListener, GameInterface
     {
         if ( e.getKeyChar() == 'w' || e.getKeyCode() == KeyEvent.VK_UP )
         {
-            game.up();
+            if(!game.up()) return;
+            //System.out.println(game.up());
             game.spawn();
             gameBoard = game.toString();
             frame.repaint();
         }
         else if ( e.getKeyChar() == 's' || e.getKeyCode() == KeyEvent.VK_DOWN )
         {
-            game.down();
+            if(!game.down()) return;
+            //System.out.println(game.down());
             game.spawn();
             gameBoard = game.toString();
             frame.repaint();
         }
         else if ( e.getKeyChar() == 'a' || e.getKeyCode() == KeyEvent.VK_LEFT )
         {
-            game.left();
+            if(!game.left()) return;
+            //System.out.println(game.left());
             game.spawn();
             gameBoard = game.toString();
             frame.repaint();
         }
         else if ( e.getKeyChar() == 'd' || e.getKeyCode() == KeyEvent.VK_RIGHT )
         {
-            game.right();
+            if(!game.right()) return;
+            //System.out.println(game.right());
             game.spawn();
             gameBoard = game.toString();
             frame.repaint();
@@ -163,12 +169,29 @@ public class Game extends JPanel implements KeyListener, GameInterface
     }
 
     @Override
-    public void move(Vector options) {
-        Moves move = options.getMove();
+    public void move(Vector vector) {
+        Moves move = Moves.UP;
+        double maxValue = 0;
+
+        // vector: [up, right, down, left]
+        for (int i = 0; i < vector.length(); i++) {
+            double value = vector.get(i);
+            if (value > maxValue) {
+                maxValue = value;
+                switch (i) {
+                    case 0 -> move = Moves.UP;
+                    case 1 -> move = Moves.RIGHT;
+                    case 2 -> move = Moves.DOWN;
+                    case 3 -> move = Moves.LEFT;
+                }
+            }
+        }
 
         switch (move) {
             case UP -> {
-                game.up();
+                System.out.println("up");
+                boolean hasMoved = game.up();
+                System.out.println(hasMoved);
                 game.spawn();
                 gameBoard = game.toString();
                 frame.repaint();
@@ -182,7 +205,8 @@ public class Game extends JPanel implements KeyListener, GameInterface
             }
 
             case DOWN -> {
-                game.down();
+                boolean hasMoved = game.down();
+                System.out.println(hasMoved);
                 game.spawn();
                 gameBoard = game.toString();
                 frame.repaint();
@@ -199,6 +223,7 @@ public class Game extends JPanel implements KeyListener, GameInterface
 
     @Override
     public int getScore() {
+        System.out.println("game over");
         return game.getScore();
     }
 
@@ -209,6 +234,7 @@ public class Game extends JPanel implements KeyListener, GameInterface
 
     public static void main( String[] args )
     {
+        System.out.println("start");
         setUpGUI();
     }
 }

@@ -1,6 +1,11 @@
 public enum Moves {
-    UP,
-    RIGHT,
-    DOWN,
-    LEFT
+    UP(0),
+    RIGHT(1),
+    DOWN(2),
+    LEFT(3);
+
+    public final int num;
+    Moves(int i) {
+        this.num = i;
+    }
 }

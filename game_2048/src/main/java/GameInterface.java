@@ -21,6 +21,11 @@ public interface GameInterface {
     int getScore();
 
     /*
+    *   Game over
+    */
+    void gameOver();
+
+    /*
     Ta funkcja "spłaszcza" pole gry do jednowymiarowej tablicy doubli, też kolejność w jakiej spłaszczysz jest obojętna
      */
     double[] getState();

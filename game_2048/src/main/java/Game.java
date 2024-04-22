@@ -39,7 +39,6 @@ public class Game extends JPanel implements KeyListener, GameInterface
         if ( e.getKeyChar() == 'w' || e.getKeyCode() == KeyEvent.VK_UP )
         {
             if(!game.up()) return;
-            //System.out.println(game.up());
             game.spawn();
             gameBoard = game.toString();
             frame.repaint();
@@ -47,7 +46,6 @@ public class Game extends JPanel implements KeyListener, GameInterface
         else if ( e.getKeyChar() == 's' || e.getKeyCode() == KeyEvent.VK_DOWN )
         {
             if(!game.down()) return;
-            //System.out.println(game.down());
             game.spawn();
             gameBoard = game.toString();
             frame.repaint();
@@ -55,7 +53,6 @@ public class Game extends JPanel implements KeyListener, GameInterface
         else if ( e.getKeyChar() == 'a' || e.getKeyCode() == KeyEvent.VK_LEFT )
         {
             if(!game.left()) return;
-            //System.out.println(game.left());
             game.spawn();
             gameBoard = game.toString();
             frame.repaint();
@@ -63,7 +60,6 @@ public class Game extends JPanel implements KeyListener, GameInterface
         else if ( e.getKeyChar() == 'd' || e.getKeyCode() == KeyEvent.VK_RIGHT )
         {
             if(!game.right()) return;
-            //System.out.println(game.right());
             game.spawn();
             gameBoard = game.toString();
             frame.repaint();
@@ -189,31 +185,28 @@ public class Game extends JPanel implements KeyListener, GameInterface
 
         switch (move) {
             case UP -> {
-                System.out.println("up");
-                boolean hasMoved = game.up();
-                System.out.println(hasMoved);
+                if(!game.up()) return;
                 game.spawn();
                 gameBoard = game.toString();
                 frame.repaint();
             }
 
             case RIGHT -> {
-                game.right();
+                if(!game.right()) return;
                 game.spawn();
                 gameBoard = game.toString();
                 frame.repaint();
             }
 
             case DOWN -> {
-                boolean hasMoved = game.down();
-                System.out.println(hasMoved);
+                if(!game.down()) return;
                 game.spawn();
                 gameBoard = game.toString();
                 frame.repaint();
             }
 
             case LEFT -> {
-                game.left();
+                if(!game.left()) return;
                 game.spawn();
                 gameBoard = game.toString();
                 frame.repaint();

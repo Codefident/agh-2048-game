@@ -23,7 +23,7 @@ public interface GameInterface {
     /*
     *   Game over
     */
-    void gameOver();
+    boolean gameOver();
 
     /*
     Ta funkcja "spłaszcza" pole gry do jednowymiarowej tablicy doubli, też kolejność w jakiej spłaszczysz jest obojętna

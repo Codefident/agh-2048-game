@@ -117,7 +117,7 @@ public class Game extends JPanel implements KeyListener, GameInterface
         }
         if ( game.gameOver() )
         {
-            this.gameOver();
+            //this.gameOver();
 
             g2.setColor( Color.gray );
             g2.fillRect( 140, 50, 250, 250 );
@@ -215,23 +215,17 @@ public class Game extends JPanel implements KeyListener, GameInterface
 
     @Override
     public int getScore() {
-        System.out.println("game over");
+        //System.out.println("game over");
         return game.getScore();
     }
 
     @Override
-    public void gameOver() {
-
+    public boolean gameOver() {
+        return game.gameOver();
     }
 
     @Override
     public double[] getState() {
         return game.flattenBoard();
-    }
-
-    public static void main( String[] args )
-    {
-        System.out.println("start");
-        setUpGUI();
     }
 }

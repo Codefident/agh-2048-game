@@ -28,7 +28,12 @@ public class Board
 
         for (Tile[] tiles : board) {
             for (Tile tile : tiles) {
-                flatBoard[index++] = tile.getValue();
+                //flatBoard[index++] = tile.getValue();
+                if(tile.getValue() > 0) {
+                    flatBoard[index++] = Math.log(tile.getValue())/Math.log(2);
+                } else {
+                    flatBoard[index++] = 0.0;
+                }
             }
         }
 

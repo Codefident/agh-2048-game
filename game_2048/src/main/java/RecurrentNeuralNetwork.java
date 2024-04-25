@@ -24,7 +24,7 @@ public class RecurrentNeuralNetwork {
 
             for(int x = 0; x < nodes.get(i+1); x++) {
                 for(int y = 0; y < nodes.get(i); y++) {
-                    temp[x][y] = -1 + 2 * RANDOM.nextDouble();
+                    temp[x][y] = RANDOM.nextGaussian();
                 }
             }
 
@@ -36,7 +36,7 @@ public class RecurrentNeuralNetwork {
 
             for(int x = 0; x < nodes.get(i); x++) {
                 for(int y = 0; y < nodes.get(i); y++) {
-                    temp[x][y] = -1 + 2 * RANDOM.nextDouble();
+                    temp[x][y] = RANDOM.nextGaussian();
                 }
             }
 
@@ -47,7 +47,7 @@ public class RecurrentNeuralNetwork {
             double[] temp = new double[nodes.get(i)];
 
             for(int x = 0; x < nodes.get(i); x++) {
-                temp[x] = -1 + 2 * RANDOM.nextDouble();
+                temp[x] = RANDOM.nextGaussian();
             }
 
             weightsB.add(new BasicVector(temp));
@@ -73,7 +73,7 @@ public class RecurrentNeuralNetwork {
                     }
 
                     if(RANDOM.nextDouble() < probability) {
-                        temp[x][y] = -1 + 2 * RANDOM.nextDouble();
+                        temp[x][y] = RANDOM.nextGaussian();
                     }
                 }
             }
@@ -93,7 +93,7 @@ public class RecurrentNeuralNetwork {
                     }
 
                     if(RANDOM.nextDouble() < probability) {
-                        temp[x][y] = -1 + 2 * RANDOM.nextDouble();
+                        temp[x][y] = RANDOM.nextGaussian();
                     }
                 }
             }
@@ -112,7 +112,7 @@ public class RecurrentNeuralNetwork {
                 }
 
                 if(RANDOM.nextDouble() < probability) {
-                    temp[x] = -1 + 2 * RANDOM.nextDouble();
+                    temp[x] = RANDOM.nextGaussian();
                 }
             }
 
@@ -138,10 +138,8 @@ public class RecurrentNeuralNetwork {
                 temp.set(j,activation.apply(temp.get(j)));
             }
 
-            //System.out.println(temp);
             layers.set(i+1,temp);
         }
-        //System.out.println();
     }
 
     public Vector getOutputLayer() {

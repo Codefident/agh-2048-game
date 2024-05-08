@@ -1,6 +1,10 @@
+import java.util.Random;
+
 public class Board
 {
     public Tile[][] board;
+
+    private static final Random RANDOM = new Random(2137);
 
     int grids = 4;
 
@@ -81,9 +85,10 @@ public class Board
         boolean empty = true;
         while ( empty )
         {
-            int row = (int)( Math.random() * 4 );
-            int col = (int)( Math.random() * 4 );
-            double x = Math.random();
+            int r = RANDOM.nextInt(16);
+            int row = r/4;
+            int col = r%4;
+            double x = RANDOM.nextDouble();
             if ( board[row][col].getValue() == 0 )
             {
                 if ( x < 0.2 )

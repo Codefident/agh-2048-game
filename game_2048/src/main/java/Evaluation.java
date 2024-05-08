@@ -8,7 +8,7 @@ public class Evaluation {
     private int score = 0;
     private double maxVal = 0.0;
 
-    Evaluation(RNNEvolutionStrategy agent, int tries, int maxMoves) {
+    Evaluation(RecurrentNeuralNetwork agent, int tries, int maxMoves) {
         for(int j = 0; j < tries; j++) {
             game.newGame();
             agent.resetLayers();

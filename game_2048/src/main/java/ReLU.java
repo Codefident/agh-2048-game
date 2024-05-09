@@ -7,4 +7,7 @@ public class ReLU implements Function<Double,Double> {
     public Double apply(Double x) {
         return max(0,x);
     }
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

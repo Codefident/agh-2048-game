@@ -7,7 +7,7 @@ import static java.util.Collections.max;
 
 public class Main {
     public static void main(String[] args) {
-        Random random = new Random(2137);
+        Random random = new Random(2137); // love
 
         List<Integer> layers = List.of(16,32,64,64,16,4);
         int populationSize = 80; // rozmiar populacji
@@ -62,6 +62,9 @@ public class Main {
             System.out.print(sum/populationSize);
             System.out.print('\t');
             System.out.println(Math.pow(2,max(maxVals)));
+
+            // save test
+            best.save();
 
             for(int i = 0; i < populationSize; i++) {
                 if(!topRNNs.contains(i)) {

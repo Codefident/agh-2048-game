@@ -7,4 +7,7 @@ public class Sigmoid implements Function<Double,Double> {
     public Double apply(Double x) {
         return 1/(1+exp(-x));
     }
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 
+import static java.lang.System.in;
+
 public class RecurrentNeuralNetwork {
     private final List<Matrix> weightsW = new ArrayList<>();
     private final List<Matrix> weightsV = new ArrayList<>();
@@ -17,6 +19,19 @@ public class RecurrentNeuralNetwork {
     private final Function<Double,Double> activation;
     private static final Random RANDOM = new Random(2137);
     private final String fileName = "bestNetwork.csv";
+
+    public void show() {
+        for(Matrix matrix : weightsW) {
+            System.out.println(String.valueOf(matrix.rows()) + ' ' + String.valueOf(matrix.columns()));
+        }
+
+        for(Matrix matrix : weightsV) {
+            System.out.println(String.valueOf(matrix.rows()) + ' ' + String.valueOf(matrix.columns()));
+            //System.out.println(matrix);
+        }
+
+
+    }
 
     RecurrentNeuralNetwork(List<Integer> nodes, Function<Double,Double> function) {
         this.activation = function;
@@ -125,18 +140,16 @@ public class RecurrentNeuralNetwork {
         resetLayers();
     }
 
-    RecurrentNeuralNetwork(String fileName_weightsW, String fileName_weightsV, String fileName_weightsB, String fileName_layers)
+    RecurrentNeuralNetwork(String fileName_weightsW, String fileName_weightsV, String fileName_weightsB, List<Integer> nodes)
     {
         File file_weightsW = new File(fileName_weightsW);
         File file_weightsV = new File(fileName_weightsV);
         File file_weightsB = new File(fileName_weightsB);
-        File file_layers = new File(fileName_layers);
-        this.activation = new ReLU();
+        this.activation = new Sigmoid();
 
-        List<Matrix> weightsW = new ArrayList<>();
-        List<Matrix> weightsV = new ArrayList<>();
-        List<Vector> weightsB = new ArrayList<>();
-        List<Vector> layers = new ArrayList<>();
+        for(Integer layer : nodes) {
+            layers.add(new BasicVector(new double[layer]));
+        }
 
         // weightsW
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file_weightsW))) {
@@ -196,35 +209,8 @@ public class RecurrentNeuralNetwork {
             System.err.println("Błąd podczas wczytywania danych z pliku: " + e.getMessage());
         }
 
-        // layers
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file_layers))) {
+        resetLayers();
 
-            // Odczytanie danych z pliku
-            Object obj;
-
-            while ((obj = in.readObject()) != null) {
-                String csvData = (String) obj;
-                // Tworzenie obiektów Matrix i Vector z danych CSV
-                if (!csvData.isEmpty()) {
-                    layers.add(Vector.fromCSV(csvData));
-                }
-            }
-            System.out.println("Dane zostały pomyślnie wczytane z pliku: " + fileName_layers);
-        } catch (EOFException e) {
-            // Koniec pliku
-        } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Błąd podczas wczytywania danych z pliku: " + e.getMessage());
-        }
-
-        // Aktualizacja atrybutów obiektu
-        this.weightsW.clear();
-        this.weightsW.addAll(weightsW);
-        this.weightsV.clear();
-        this.weightsV.addAll(weightsV);
-        this.weightsB.clear();
-        this.weightsB.addAll(weightsB);
-        this.layers.clear();
-        this.layers.addAll(layers);
 
         System.out.println("Wczytano!!!");
     }

@@ -1,7 +1,7 @@
+import javafx.util.Pair;
+
 import java.util.*;
 import java.util.function.Function;
-
-import javafx.util.Pair;
 
 import static java.util.Collections.max;
 
@@ -31,12 +31,14 @@ public class Main {
         String fileName_weightsW = "bestNetwork_weightsW.csv";
         String fileName_weightsV = "bestNetwork_weightsV.csv";
         String fileName_weightsB = "bestNetwork_weightsB.csv";
-        String fileName_layers = "bestNetwork_layers.csv";
         //
+        RecurrentNeuralNetwork rnn = new RecurrentNeuralNetwork(fileName_weightsW,fileName_weightsV,fileName_weightsB,layers);
 
-        for(int i = 0; i < populationSize; i++) {
+        Evaluation eval = new Evaluation(rnn,evaluationTries,maxMoves);
+        System.out.println(eval.getScore());
+        /*for(int i = 0; i < populationSize; i++) {
             //population.add(new RecurrentNeuralNetwork(new ArrayList<>(layers),activationFunction));
-            population.add(new RecurrentNeuralNetwork(fileName_weightsW, fileName_weightsV,fileName_weightsB,fileName_layers));
+            population.add(new RecurrentNeuralNetwork(fileName_weightsW, fileName_weightsV,fileName_weightsB,layers));
         }
 
         for(int j = 0; j < generations; j++) {
@@ -84,6 +86,6 @@ public class Main {
             }
         }
 
-        best.save();
+        best.save();*/
     }
 }

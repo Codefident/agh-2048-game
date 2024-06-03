@@ -125,65 +125,108 @@ public class RecurrentNeuralNetwork {
         resetLayers();
     }
 
-    RecurrentNeuralNetwork(String fileName)
+    RecurrentNeuralNetwork(String fileName_weightsW, String fileName_weightsV, String fileName_weightsB, String fileName_layers)
     {
-        File file = new File(fileName);
+        File file_weightsW = new File(fileName_weightsW);
+        File file_weightsV = new File(fileName_weightsV);
+        File file_weightsB = new File(fileName_weightsB);
+        File file_layers = new File(fileName_layers);
         this.activation = new ReLU();
 
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
-            List<Matrix> weightsW = new ArrayList<>();
-            List<Matrix> weightsV = new ArrayList<>();
-            List<Vector> weightsB = new ArrayList<>();
-            List<Vector> layers = new ArrayList<>();
+        List<Matrix> weightsW = new ArrayList<>();
+        List<Matrix> weightsV = new ArrayList<>();
+        List<Vector> weightsB = new ArrayList<>();
+        List<Vector> layers = new ArrayList<>();
+
+        // weightsW
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file_weightsW))) {
 
             // Odczytanie danych z pliku
             Object obj;
+
             while ((obj = in.readObject()) != null) {
                 String csvData = (String) obj;
-
-                // Tworzenie obiektów Matrix i Vector z danych CSV
                 if (!csvData.isEmpty()) {
-                    if (csvData.startsWith("Matrix")) {
-                        weightsW.add(Matrix.fromCSV(csvData));
-                    } else if (csvData.startsWith("Vector")) {
-                        weightsV.add(Matrix.fromCSV(csvData));
-                    } else if (csvData.startsWith("Vector")) {
-                        weightsB.add(Vector.fromCSV(csvData));
-                    } else if (csvData.startsWith("Vector")) {
-                        layers.add(Vector.fromCSV(csvData));
-                    }
+                    weightsW.add(Matrix.fromCSV(csvData));
                 }
             }
-
-            /*if ((obj = in.readObject()) != null) {
-                String activationName = (String) obj;
-                // Tworzenie funkcji aktywacji na podstawie nazwy
-                switch (activationName) {
-                    case "Sigmoid":
-                        this.activation = new Sigmoid();
-                    case "ReLU":
-                        this.activation = new ReLU();
-                        break;
-                    // Dodaj inne funkcje aktywacji w razie potrzeby
-                }
-            }*/
-
-            // Aktualizacja atrybutów obiektu
-            this.weightsW.clear();
-            this.weightsW.addAll(weightsW);
-            this.weightsV.clear();
-            this.weightsV.addAll(weightsV);
-            this.weightsB.clear();
-            this.weightsB.addAll(weightsB);
-            this.layers.clear();
-            this.layers.addAll(layers);
-
-            System.out.println("Dane zostały pomyślnie wczytane z pliku: " + fileName);
+            System.out.println("Dane zostały pomyślnie wczytane z pliku: " + fileName_weightsW);
         } catch (EOFException e) {
             // Koniec pliku
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Błąd podczas wczytywania danych z pliku: " + e.getMessage());
         }
+
+        // weightsV
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file_weightsV))) {
+
+            // Odczytanie danych z pliku
+            Object obj;
+
+            while ((obj = in.readObject()) != null) {
+                String csvData = (String) obj;
+                if (!csvData.isEmpty()) {
+                    weightsV.add(Matrix.fromCSV(csvData));
+                }
+            }
+            System.out.println("Dane zostały pomyślnie wczytane z pliku: " + fileName_weightsV);
+        } catch (EOFException e) {
+            // Koniec pliku
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Błąd podczas wczytywania danych z pliku: " + e.getMessage());
+        }
+
+        // weightsB
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file_weightsB))) {
+
+            // Odczytanie danych z pliku
+            Object obj;
+
+            while ((obj = in.readObject()) != null) {
+                String csvData = (String) obj;
+                // Tworzenie obiektów Matrix i Vector z danych CSV
+                if (!csvData.isEmpty()) {
+                    weightsB.add(Vector.fromCSV(csvData));
+                }
+            }
+            System.out.println("Dane zostały pomyślnie wczytane z pliku: " + fileName_weightsB);
+        } catch (EOFException e) {
+            // Koniec pliku
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Błąd podczas wczytywania danych z pliku: " + e.getMessage());
+        }
+
+        // layers
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file_layers))) {
+
+            // Odczytanie danych z pliku
+            Object obj;
+
+            while ((obj = in.readObject()) != null) {
+                String csvData = (String) obj;
+                // Tworzenie obiektów Matrix i Vector z danych CSV
+                if (!csvData.isEmpty()) {
+                    layers.add(Vector.fromCSV(csvData));
+                }
+            }
+            System.out.println("Dane zostały pomyślnie wczytane z pliku: " + fileName_layers);
+        } catch (EOFException e) {
+            // Koniec pliku
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Błąd podczas wczytywania danych z pliku: " + e.getMessage());
+        }
+
+        // Aktualizacja atrybutów obiektu
+        this.weightsW.clear();
+        this.weightsW.addAll(weightsW);
+        this.weightsV.clear();
+        this.weightsV.addAll(weightsV);
+        this.weightsB.clear();
+        this.weightsB.addAll(weightsB);
+        this.layers.clear();
+        this.layers.addAll(layers);
+
+        System.out.println("Wczytano!!!");
     }
 
     public void resetLayers() {
@@ -206,38 +249,25 @@ public class RecurrentNeuralNetwork {
     }
 
     public void save() {
-        String fileName = "bestNetwork.csv";
-        File file = new File(fileName);
+        String fileName_weightsW = "bestNetwork_weightsW.csv";
+        String fileName_weightsV = "bestNetwork_weightsV.csv";
+        String fileName_weightsB = "bestNetwork_weightsB.csv";
+        String fileName_layers = "bestNetwork_layers.csv";
 
+        File file_weightsW = new File(fileName_weightsW);
+        File file_weightsV = new File(fileName_weightsV);
+        File file_weightsB = new File(fileName_weightsB);
+        File file_layers = new File(fileName_layers);
+
+        // weightsW
         try {
-            file.delete();
-            file.createNewFile();
+            file_weightsW.delete();
+            file_weightsW.createNewFile();
 
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
-
-                // weightsW
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file_weightsW))) {
                 for (Matrix matrix: this.weightsW) {
                     out.writeObject(matrix.toCSV());
                 }
-
-                // weightsV
-                for (Matrix matrix: this.weightsV) {
-                    out.writeObject(matrix.toCSV());
-                }
-
-                // weightsB
-                for (Vector vector: this.weightsB) {
-                    out.writeObject(vector.toCSV());
-                }
-
-                // layers
-                for (Vector layer: this.layers) {
-                    out.writeObject(layer.toCSV());
-                }
-
-                // activation function
-                out.writeBytes(this.activation.toString());
-
             }
             catch (IOException e) {
                 System.err.println("ObjectOutputStream error");
@@ -246,51 +276,59 @@ public class RecurrentNeuralNetwork {
         catch (IOException e) {
             System.err.println("Creating file error");
         }
-    }
 
-    public void load(String fileName) {
-        File file = new File(fileName);
+        // weightsV
+        try {
+            file_weightsV.delete();
+            file_weightsV.createNewFile();
 
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
-            List<Matrix> weightsW = new ArrayList<>();
-            List<Matrix> weightsV = new ArrayList<>();
-            List<Vector> weightsB = new ArrayList<>();
-            List<Vector> layers = new ArrayList<>();
-
-            // Odczytanie danych z pliku
-            Object obj;
-            while ((obj = in.readObject()) != null) {
-                String csvData = (String) obj;
-
-                // Tworzenie obiektów Matrix i Vector z danych CSV
-                if (!csvData.isEmpty()) {
-                    if (csvData.startsWith("Matrix")) {
-                        weightsW.add(Matrix.fromCSV(csvData));
-                    } else if (csvData.startsWith("Vector")) {
-                        weightsV.add(Matrix.fromCSV(csvData));
-                    } else if (csvData.startsWith("Vector")) {
-                        weightsB.add(Vector.fromCSV(csvData));
-                    } else if (csvData.startsWith("Vector")) {
-                        layers.add(Vector.fromCSV(csvData));
-                    }
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file_weightsV))) {
+                for (Matrix matrix: this.weightsV) {
+                    out.writeObject(matrix.toCSV());
                 }
             }
+            catch (IOException e) {
+                System.err.println("ObjectOutputStream error");
+            }
+        }
+        catch (IOException e) {
+            System.err.println("Creating file error");
+        }
 
-            // Aktualizacja atrybutów obiektu
-            this.weightsW.clear();
-            this.weightsW.addAll(weightsW);
-            this.weightsV.clear();
-            this.weightsV.addAll(weightsV);
-            this.weightsB.clear();
-            this.weightsB.addAll(weightsB);
-            this.layers.clear();
-            this.layers.addAll(layers);
+        // weightsB
+        try {
+            file_weightsB.delete();
+            file_weightsB.createNewFile();
 
-            System.out.println("Dane zostały pomyślnie wczytane z pliku: " + fileName);
-        } catch (EOFException e) {
-            // Koniec pliku
-        } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Błąd podczas wczytywania danych z pliku: " + e.getMessage());
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file_weightsB))) {
+                for (Vector vector: this.weightsB) {
+                    out.writeObject(vector.toCSV());
+                }
+            }
+            catch (IOException e) {
+                System.err.println("ObjectOutputStream error");
+            }
+        }
+        catch (IOException e) {
+            System.err.println("Creating file error");
+        }
+
+        // layers
+        try {
+            file_layers.delete();
+            file_layers.createNewFile();
+
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file_layers))) {
+                for (Vector layer: this.layers) {
+                    out.writeObject(layer.toCSV());
+                }
+            }
+            catch (IOException e) {
+                System.err.println("ObjectOutputStream error");
+            }
+        }
+        catch (IOException e) {
+            System.err.println("Creating file error");
         }
     }
 

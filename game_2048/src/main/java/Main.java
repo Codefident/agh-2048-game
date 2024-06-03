@@ -13,22 +13,30 @@ public class Main {
         int populationSize = 80; // rozmiar populacji
         int bestSize = 10; // ile osobników przeżywa i tworzy nowe osobniki
         double randomProbability = 0.001; // prawdopodobieństwo powstania nowego losowego osobnika
-        int generations = 10000; // liczba pokoleń
+        int generations = 1000; // liczba pokoleń
         double mutationProbability = 0.001; // prawdopodobieństwo mutacji genu
         int evaluationTries = 5; // na ilu grach ewaluujemy
         int maxMoves = 1000; // maksymalna liczba ruchów w grze
-        Function<Double,Double> activationFunction = new ReLU(); // funkcja aktywacji
+        Function<Double,Double> activationFunction = new Sigmoid(); // funkcja aktywacji
 
 
 
 
 
-        RecurrentNeuralNetwork best;
+        RecurrentNeuralNetwork best = null;
 
         List<RecurrentNeuralNetwork> population = new ArrayList<>();
 
+        // test - RNN from files
+        String fileName_weightsW = "bestNetwork_weightsW.csv";
+        String fileName_weightsV = "bestNetwork_weightsV.csv";
+        String fileName_weightsB = "bestNetwork_weightsB.csv";
+        String fileName_layers = "bestNetwork_layers.csv";
+        //
+
         for(int i = 0; i < populationSize; i++) {
-            population.add(new RecurrentNeuralNetwork(new ArrayList<>(layers),activationFunction));
+            //population.add(new RecurrentNeuralNetwork(new ArrayList<>(layers),activationFunction));
+            population.add(new RecurrentNeuralNetwork(fileName_weightsW, fileName_weightsV,fileName_weightsB,fileName_layers));
         }
 
         for(int j = 0; j < generations; j++) {
@@ -54,6 +62,7 @@ public class Main {
             }
 
             best = population.get(rating.get(0).getValue());
+            //best.save();
 
             System.out.print(j);
             System.out.print('\t');
@@ -62,9 +71,7 @@ public class Main {
             System.out.print(sum/populationSize);
             System.out.print('\t');
             System.out.println(Math.pow(2,max(maxVals)));
-
-            // save test
-            best.save();
+            
 
             for(int i = 0; i < populationSize; i++) {
                 if(!topRNNs.contains(i)) {
@@ -76,5 +83,7 @@ public class Main {
                 }
             }
         }
+
+        best.save();
     }
 }

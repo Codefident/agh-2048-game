@@ -7,16 +7,16 @@ import static java.util.Collections.max;
 
 public class Main {
     public static void main(String[] args) {
-        Random random = new Random(2137); // love
+        Random random = new Random(2137);
 
         List<Integer> layers = List.of(16,32,64,64,16,4);
         int populationSize = 80; // rozmiar populacji
         int bestSize = 10; // ile osobników przeżywa i tworzy nowe osobniki
-        double randomProbability = 0.001; // prawdopodobieństwo powstania nowego losowego osobnika
+        double randomProbability = 16; // prawdopodobieństwo powstania nowego losowego osobnika
         int generations = 1000; // liczba pokoleń
         double mutationProbability = 0.001; // prawdopodobieństwo mutacji genu
-        int evaluationTries = 5; // na ilu grach ewaluujemy
-        int maxMoves = 1000; // maksymalna liczba ruchów w grze
+        int evaluationTries = 1; // na ilu grach ewaluujemy
+        int maxMoves = 2000; // maksymalna liczba ruchów w grze
         Function<Double,Double> activationFunction = new Sigmoid(); // funkcja aktywacji
 
 
@@ -25,17 +25,22 @@ public class Main {
 
         RecurrentNeuralNetwork best = null;
 
-        List<RecurrentNeuralNetwork> population = new ArrayList<>();
+        //List<RecurrentNeuralNetwork> population = new ArrayList<>();
 
         // test - RNN from files
         String fileName_weightsW = "bestNetwork_weightsW.csv";
         String fileName_weightsV = "bestNetwork_weightsV.csv";
         String fileName_weightsB = "bestNetwork_weightsB.csv";
-        //
+
         RecurrentNeuralNetwork rnn = new RecurrentNeuralNetwork(fileName_weightsW,fileName_weightsV,fileName_weightsB,layers);
 
-        Evaluation eval = new Evaluation(rnn,evaluationTries,maxMoves);
-        System.out.println(eval.getScore());
+
+        Evaluation eval = new Evaluation(rnn,evaluationTries,maxMoves,-95564);
+
+        System.out.print(eval.getScore());
+        System.out.print('\t');
+        System.out.println(Math.pow(2,eval.getMaxVal()));
+
         /*for(int i = 0; i < populationSize; i++) {
             //population.add(new RecurrentNeuralNetwork(new ArrayList<>(layers),activationFunction));
             population.add(new RecurrentNeuralNetwork(fileName_weightsW, fileName_weightsV,fileName_weightsB,layers));

@@ -4,7 +4,7 @@ public class Board
 {
     public Tile[][] board;
 
-    private static final Random RANDOM = new Random(2137);
+    private final Random RANDOM;
 
     int grids = 4;
 
@@ -14,8 +14,9 @@ public class Board
 
 
    // 4x4 matrix
-    public Board()
+    public Board(int seed)
     {
+        RANDOM = new Random(seed);
         board = new Tile[4][4];
         for ( int i = 0; i < board.length; i++ )
         {

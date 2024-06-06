@@ -9,9 +9,10 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Game extends JPanel implements KeyListener, GameInterface
+public class Game extends JPanel implements GameInterface
 {
-    Board game = new Board();
+    private int seed;
+    Board game = new Board(seed);
 
     static Game startNewGame = new Game();
 
@@ -23,70 +24,15 @@ public class Game extends JPanel implements KeyListener, GameInterface
 
 
     // set up GUI, add key listeners
-    public static void setUpGUI()
+    public void setUpGUI()
     {
-        frame.addKeyListener( startNewGame );
-        frame.getContentPane().add( startNewGame );
+        //frame.addKeyListener( startNewGame );
+        frame.getContentPane().add( this );
         frame.setSize( 600, 400 );
         frame.setVisible( true );
         frame.setResizable( false );
+        frame.repaint();
     }
-
-    // WASD
-    @Override
-    public void keyPressed( KeyEvent e )
-    {
-        if ( e.getKeyChar() == 'w' || e.getKeyCode() == KeyEvent.VK_UP )
-        {
-            if(!game.up()) return;
-            game.spawn();
-            gameBoard = game.toString();
-            frame.repaint();
-        }
-        else if ( e.getKeyChar() == 's' || e.getKeyCode() == KeyEvent.VK_DOWN )
-        {
-            if(!game.down()) return;
-            game.spawn();
-            gameBoard = game.toString();
-            frame.repaint();
-        }
-        else if ( e.getKeyChar() == 'a' || e.getKeyCode() == KeyEvent.VK_LEFT )
-        {
-            if(!game.left()) return;
-            game.spawn();
-            gameBoard = game.toString();
-            frame.repaint();
-        }
-        else if ( e.getKeyChar() == 'd' || e.getKeyCode() == KeyEvent.VK_RIGHT )
-        {
-            if(!game.right()) return;
-            game.spawn();
-            gameBoard = game.toString();
-            frame.repaint();
-        }
-        else if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-        {
-            game = new Board();
-            game.spawn();
-            game.spawn();
-            frame.repaint();
-        }
-    }
-
-
-    @Override
-    public void keyReleased( KeyEvent e )
-    {
-        // Not Used
-    }
-
-
-    @Override
-    public void keyTyped( KeyEvent e )
-    {
-        // Not Used
-    }
-
 
     // painting`
     public void paint( Graphics g )
@@ -156,8 +102,9 @@ public class Game extends JPanel implements KeyListener, GameInterface
 
     // GameInterface
     @Override
-    public void newGame() {
-        game = new Board();
+    public void newGame(int seed) {
+        game = new Board(seed);
+        this.seed = seed;
         game.spawn();
         game.spawn();
         frame.repaint();

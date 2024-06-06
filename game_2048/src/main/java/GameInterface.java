@@ -4,7 +4,7 @@ public interface GameInterface {
     /*
     Funkcja do rozpoczynania nowej rozgrywki (resetuje pola, wynik itp)
     */
-    void newGame();
+    void newGame(int seed);
 
     /*
     Przyjmuje la4j.Vector, w tym wypadku czteroelementowy,
